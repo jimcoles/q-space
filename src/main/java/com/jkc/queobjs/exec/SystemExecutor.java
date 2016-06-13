@@ -23,7 +23,7 @@ public class SystemExecutor {
 	/* Global action table */
 	private ActionContextTable 			act = new ActionContextTable();	
 	/* Managed queues for each space */
-	private Map<QueuedSpace, Executor> 	queueMap = new HashMap<>();
+	private Map<QueuedSpace, Executor> 	queueMap = new HashMap();
 
 	/** Called on consumer thread */
 //	public void exec(QueuedSpace target, ActionSequence sequence) {
