@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.jkc.queobjs.api.Action;
 import com.jkc.queobjs.api.ActionContext;
-import com.jkc.queobjs.api.QueuedSpace;
+import com.jkc.queobjs.api.QSpace;
 import com.jkc.queobjs.api.util.AbstractSpace;
 import com.jkc.queobjs.exec.SystemExecutor;
 import com.jkc.queobjs.sample.model.actions.AddPerson;
@@ -19,7 +19,7 @@ import com.jkc.queobjs.sample.model.beans.PersonBean;
  * @author jcoles
  *
  */
-public class PersonSpace extends AbstractSpace implements QueuedSpace {
+public class PersonSpace extends AbstractSpace implements QSpace {
 	
 	public PersonSpace(ActionContext parentContext) {
 		super(parentContext);
@@ -27,8 +27,8 @@ public class PersonSpace extends AbstractSpace implements QueuedSpace {
 
 	public Action<PersonBean> ADD_USER = new AddPerson(this);
 	
-	private List<PersonBean> persons = new LinkedList<PersonBean>();
-	private List<AccountBean> accounts = new LinkedList<AccountBean>();
+	private List<PersonBean> persons = new LinkedList();
+	private List<AccountBean> accounts = new LinkedList();
 	
 	
 	/*

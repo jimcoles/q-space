@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import com.jkc.queobjs.api.Action;
-import com.jkc.queobjs.api.Call;
-import com.jkc.queobjs.api.QException;
-import com.jkc.queobjs.api.QueuedSpace;
-import com.jkc.queobjs.api.TransAction;
+import com.jkc.queobjs.api.*;
+import com.jkc.queobjs.api.QSpace;
 
 /**
  * Makes async access to QueueObjects look like synchronous.  This guy
@@ -23,21 +20,19 @@ public class SystemExecutor {
 	/* Global action table */
 	private ActionContextTable 			act = new ActionContextTable();	
 	/* Managed queues for each space */
-	private Map<QueuedSpace, Executor> 	queueMap = new HashMap();
+	private Map<QSpace, Executor> 	queueMap = new HashMap();
 
 	/** Called on consumer thread */
-//	public void exec(QueuedSpace target, ActionSequence sequence) {
+//	public void exec(QSpace target, ActionSequence sequence) {
 //		exec(target, sequence.toArray(new Action[0]));
 //	}
 //
-	public void exec(QueuedSpace target, Action ... actions) {
-		for (Action action : actions) {
-			exec(target, action);
-		}
+	public Object exec(QSpace target, Action action) {
+		return exec(target, action);
 	}
 	
-	public Object exec(TransAction transAm, QueuedSpace target, Action action, Call call) throws QException {
-		ExecAction innerAction = new ExecAction(action);
+	public Object exec(TransAction transAm, QSpace target, Action action, ExecCall call) throws QException {
+		ExecAction innerAction = new ExecAction(transAm, action, call);
 		getQueue(target).execute(innerAction);
 		if (innerAction.getException() != null) {
 			throw new QException(innerAction.getException());
@@ -45,7 +40,7 @@ public class SystemExecutor {
 		return innerAction.getResponse();
 	}
 
-	private Executor getQueue(QueuedSpace target) {
+	private Executor getQueue(QSpace target) {
 		Executor queue = queueMap.get(target);
 		if (queue == null) {
 			queue = Executors.newSingleThreadExecutor();

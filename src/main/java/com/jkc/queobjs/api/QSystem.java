@@ -1,8 +1,8 @@
-package com.jkc.queobjs.api.util;
+package com.jkc.queobjs.api;
 
 import java.util.logging.Logger;
 
-import com.jkc.queobjs.api.ActionContext;
+import com.jkc.queobjs.api.util.AbstractActionContext;
 import com.jkc.queobjs.exec.SystemExecutor;
 
 
